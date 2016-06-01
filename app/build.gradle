@@ -1,0 +1,57 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        free {
+            keyAlias 'free'
+            keyPassword '1234567'
+            storeFile file('F:/Android Master/Gradle/last/FinalProject/freekey.jks')
+            storePassword '1234567'
+        }
+        paid {
+            keyAlias 'paid'
+            keyPassword '1234567'
+            storeFile file('F:/Android Master/Gradle/last/FinalProject/paid.jks')
+            storePassword '1234567'
+        }
+    }
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+    defaultConfig {
+        applicationId "com.udacity.gradle.builditbigger"
+        minSdkVersion 10
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.paid
+        }
+        debug {
+            signingConfig signingConfigs.free
+        }
+    }
+    productFlavors {
+        paid {
+            applicationId "com.udacity.gradle.builditbigger.paid"
+
+        }
+        free {
+            applicationId "com.udacity.gradle.builditbigger.free"
+        }
+
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.google.android.gms:play-services-ads:8.4.0'
+    compile project(':myandroidlib')
+    compile project(':libjavalibjoke')
+    compile project(path: ':backend', configuration: 'android-endpoints')
+}
